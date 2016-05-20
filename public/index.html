@@ -1,0 +1,88 @@
+<!DOCTYPE HTML5>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Parking Monitor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300' rel='stylesheet' type='text/css'>
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
+            authDomain: "parking-monitor.firebaseapp.com",
+            databaseURL: "https://parking-monitor.firebaseio.com",
+            storageBucket: "parking-monitor.appspot.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <link rel="icon" href="images/ic_directions_car_black_48dp_1x.png">
+    <script>
+        var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
+
+        function setData() {
+            myFireBaseRef.set({
+                serial: "HC-SR04-1",
+                lot: "drift",
+                distance: "234.5"
+            });
+        }
+        function pushData() {
+          var postsRef = myFireBaseRef.child("posts");
+          postsRef.push().set({
+            serial: "HC-SR04-2",
+            lot: "drift",
+            distance: "123.4"
+          });
+        }
+    </script>
+</head>
+
+<body>
+    <section class="page-header">
+        <h1 class="project-name">Parking Monitor (on Firebase) <img src="images/ic_directions_car_white_48px.svg"></h1>
+        <h2 class="project-tagline">An ultrasonic sensor network to check parking availability</h2>
+    </section>
+
+    <section class="main-content">
+        <div class="large-button">
+            <a href="map.html">
+                <div> VIEW MAP<img src="images/ic_map_white_48px.svg"></div>
+            </a>
+            <a>
+                <div onClick="setData()" style="margin:1em;">SET DATA</div>
+            </a>
+            <a>
+                <div onClick="pushData()" style="margin:1em;">PUSH DATA</div>
+            </a>
+        </div>
+
+        <h3>Description of Process</h3>
+        <p>
+            <a href="outline.html">This is an outline of the process of completing the project.</a>
+        </p>
+
+        <h3>GitHub Source</h3>
+        <p>
+            <a href="https://github.com/AntonFranzluebbers/Parking-Monitor" target="blank">LINK</a>
+        </p>
+
+        <h3>Goals</h3>
+        <p>
+            Reduce emmissions and frustration by allowing potential parkers to remotely check the availability of parking spaces.
+        </p>
+
+        <footer class="site-footer">
+            <hr> &copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016
+        </footer>
+
+    </section>
+
+
+
+</body>
+
+</html>

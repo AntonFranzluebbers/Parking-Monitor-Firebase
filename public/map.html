@@ -1,0 +1,81 @@
+<?php
+  include('../includes/dbconnect.php');
+?>
+
+	<!DOCTYPE html>
+	<html lang="en-us">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Parking Monitor</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="stylesheets/styles.css" media="screen">
+		<link rel="icon" href="images/ic_directions_car_black_48dp_1x.png">
+		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
+				authDomain: "parking-monitor.firebaseapp.com",
+				databaseURL: "https://parking-monitor.firebaseio.com",
+				storageBucket: "parking-monitor.appspot.com",
+			};
+			firebase.initializeApp(config);
+		</script>
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+		<script>
+			var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
+			myFireBaseRef.orderByChild("distance").limitToLast(1).on("child_added", function(snapshot) {
+				var lastDataPoint = snapshot.val();
+  			alert(lastDataPoint.serial);
+			});
+		</script>
+	</head>
+
+	<body>
+		<section class="page-header">
+			<h1 class="project-name">Parking Monitor <img src="images/ic_directions_car_white_48px.svg"></h1>
+			<h2 class="project-tagline">Map of available parking spots</h2>
+		</section>
+
+
+		<section class="main-content">
+
+			<a href="index.html">Home</a> &gt; <a href="map.php">Map</a>
+			<h3>Choose a lot</h3>
+			<p>
+				This could be an image of campus with clickable overlays on the parking lots or a list like below.
+			</p>
+			<p>
+				Avalable lots:
+				<div class="available-lots">
+					<!--a href="lots/garage.php">
+                        <div class="lot-thumb">GARAGE (testing only)</div><div class="peek">100% FULL</div>
+                    </a-->
+					<a href="lots/drift.php">
+						<div class="lot-thumb">Driftmier Engineering Center (S17)</div>
+						<div class="peek" id="drift-peek"></div>
+					</a>
+					<a href="#">
+						<div class="lot-thumb">Carlton Street Deck (S15)</div>
+						<div class="peek">100% FULL</div>
+					</a>
+					<a href="#">
+						<div class="lot-thumb">South Deck (S11)</div>
+						<div class="peek">100% FULL</div>
+					</a>
+				</div>
+			</p>
+
+			<footer class="site-footer">
+				<hr>
+				<span class="site-footer-credits">&copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016</span>
+			</footer>
+
+		</section>
+
+
+	</body>
+
+	</html>
