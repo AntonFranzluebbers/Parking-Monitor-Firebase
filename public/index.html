@@ -6,7 +6,7 @@
     <title>Parking Monitor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/styles.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300" rel="stylesheet" type="text/css">
     <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
     <script>
@@ -30,12 +30,12 @@
                 distance: "234.5"
             });
         }
-        function pushData() {
+        function pushData(inputDistance) {
           var postsRef = myFireBaseRef.child("posts");
           postsRef.push().set({
-            serial: "HC-SR04-2",
+            serial: "HC-SR04-1",
             lot: "S17",
-            distance: "654.2"
+            distance: inputDistance
           });
         }
     </script>
@@ -53,10 +53,10 @@
                 <div> VIEW MAP<img src="images/ic_map_white_48px.svg"></div>
             </a>
             <a>
-                <div onClick="setData()" style="margin:1em;">SET DATA</div>
+                <div onclick="setData()" style="margin:1em;">SET DATA</div>
             </a>
             <a>
-                <div onClick="pushData()" style="margin:1em;">PUSH DATA</div>
+                <div onclick="pushData(1000)" style="margin:1em;">PUSH DATA</div>
             </a>
         </div>
 

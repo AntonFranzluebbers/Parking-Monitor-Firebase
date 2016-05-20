@@ -243,7 +243,7 @@ a:hover {
 .spot-list .handicap img {
   position: relative;
   top:-.2em;
-  right:.1em; 
+  right:.1em;
   width:.7em;
 }
 
@@ -324,8 +324,7 @@ a:hover {
 .large-button a div {
   background-color: #4CAF50;
   background: linear-gradient(to right, var(--mat-green), var(--mat-teal));
-
-
+	border-radius: .1em;
   padding: 1em;
   color: var(--mat-white);
   text-decoration: none;
@@ -372,12 +371,12 @@ a:hover {
     left:-22em;
     top:16.5em;
   }
-  
+
   .spot-list {
     margin: auto;
   }
 
-  .spot-list li { 
+  .spot-list li {
     width: 1em;
     height: 2em;
     margin: .1em;
@@ -420,8 +419,8 @@ a:hover {
     left:0;
     padding:0;
   }
-  
-  .spot-list li { 
+
+  .spot-list li {
     width: .25em;
     height: .5em;
     margin: .025em;
