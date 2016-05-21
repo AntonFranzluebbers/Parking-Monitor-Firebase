@@ -21,16 +21,18 @@
   </script>
 	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 	<script>
-		var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
-		myFireBaseRef.child("lots/S17").limitToLast(1).on("child_added", function(snapshot) {
-			var lastDataPoint = snapshot.val();
-			var driftPeek = document.getElementById("drift-1");
-			if (lastDataPoint.distance < 200) {
-				driftPeek.className = "spot-full";
-			} else {
-				driftPeek.className = "spot-empty";
-			}
-		});
+		var spots = document.getElementsByClassName("spot");
+		for (var spot=1; spot<spots.length+1; spot++) {
+			var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
+			myFireBaseRef.child("lots/S17/" + str(spot)).limitToLast(1).on("child_added", function(snapshot) {
+				var lastDataPoint = snapshot.val();
+				if (lastDataPoint.distance < 200) {
+					spots[spot].className = "spot-full spot";
+				} else {
+					spots[spot].className = "spot-empty spot";
+				}
+			});
+		}
 	</script>
   </head>
 
@@ -64,51 +66,51 @@
       <img id="background-image-drift" src="../images/drift_background.png" />
       <br>
       <ul class="spot-list">
-        <a href="#"><li id="drift-1"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot" id="drift-1"></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
         <a href="#"><li class="handicap"><img src="../images/ic_accessible_black_24px.svg"></li></a>
         <a href="#"><li class="blue-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
+        <a href="#"><li class="spot" ></li></a>
       </ul>
       <div class="spot-vert-spacer" id="drift-spacer-1"></div>
       <ul class="spot-list">
