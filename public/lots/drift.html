@@ -22,7 +22,7 @@
 	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 	<script>
 		var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
-		myFireBaseRef.child("posts").limitToLast(1).on("child_added", function(snapshot) {
+		myFireBaseRef.child("lots/S17").limitToLast(1).on("child_added", function(snapshot) {
 			var lastDataPoint = snapshot.val();
 			var driftPeek = document.getElementById("drift-1");
 			if (lastDataPoint.distance < 200) {
