@@ -22,17 +22,16 @@
 	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 	<script>
 		var spots = document.getElementsByClassName("spot");
-		for (var spot=1; spot<spots.length+1; spot++) {
-			var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
-			myFireBaseRef.child("lots/S17/" + str(spot)).limitToLast(1).on("child_added", function(snapshot) {
-				var lastDataPoint = snapshot.val();
-				if (lastDataPoint.distance < 200) {
-					spots[spot].className = "spot-full spot";
-				} else {
-					spots[spot].className = "spot-empty spot";
-				}
-			});
-		}
+
+		firebase.database().ref('lots/S17').on('child_added', function(snapshot) {
+			var spot = snapshot.val().spot;
+			if (snapshot.val().distance < 200) {
+				spots[spot-1].className = "spot-full spot";
+			} else {
+				spots[spot-1].className = "spot-empty spot";
+			}
+		});
+
 	</script>
   </head>
 
@@ -48,10 +47,10 @@
       <a href="../index.html">Home</a> &gt; <a href="../map.html">Map</a> &gt; <a href="drift.html	">Driftmier Engineering Center (S17)</a>
       <h3>Fill level of Driftmier Engineering Center (S17)</h3>
 
-      <div class="detailed-info-box">
+      <!-- <div class="detailed-info-box">
         <p>Time occupied in last 30 days: x%</p>
         <p><img src="graph-mockup.png" width="200px" height="100px"/></p>
-      </div>
+      </div> -->
 
       <ul class="spot-list-key">
         <li><div class="spot-empty"></div>Empty</li>
@@ -114,42 +113,42 @@
       </ul>
       <div class="spot-vert-spacer" id="drift-spacer-1"></div>
       <ul class="spot-list">
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
       </ul>
       <div class="spot-vert-spacer" id="drift-spacer-2"></div>
       <ul class="spot-list">
@@ -177,62 +176,62 @@
         <a href="#"><li class="spacer-spot"></li></a>
         <a href="#"><li class="spacer-spot"></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
+        <a href="#"><li class="spot"></li></a>
         <a href="#"><li class="yellow-striped"></li></a>
       </ul>
       <div class="spot-vert-spacer" id="drift-spacer-3"></div>
       <ul class="spot-list">
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
-        <a href="#"><li></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
       </ul>
       <div class="spot-vert-spacer" id="drift-spacer-4"></div>
       </div>
