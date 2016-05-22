@@ -21,15 +21,35 @@
 		</script>
 		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 		<script>
-			var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
-			myFireBaseRef.child("lots/S17").limitToLast(1).on("child_added", function(snapshot) {
-				var lastDataPoint = snapshot.val();
-  			var driftPeek = document.getElementById("drift-peek");
-				if (lastDataPoint.distance < 200) {
-					driftPeek.innerHTML = "100% FULL";
+			// var myFireBaseRef = new Firebase("https://parking-monitor.firebaseio.com/");
+			// myFireBaseRef.child("lots/S17").limitToLast(1).on("child_added", function(snapshot) {
+			// 	var lastDataPoint = snapshot.val();
+  		// 	var driftPeek = document.getElementById("drift-peek");
+			// 	if (lastDataPoint.distance < 200) {
+			// 		driftPeek.innerHTML = "100% FULL";
+			// 	} else {
+			// 		driftPeek.innerHTML = "0% FULL";
+			// 	}
+			// });
+
+			var spotsS17 = new Array(126);
+			for (var i=0;i<spotsS17.length;i++) {
+				spotsS17[i]=0;
+			}
+
+			firebase.database().ref('lots/S17').on('child_added', function(snapshot) {
+				if (snapshot.val().distance < 200) {
+					spotsS17[snapshot.val().spot] = 0;
 				} else {
-					driftPeek.innerHTML = "0% FULL";
+					spotsS17[snapshot.val().spot] = 1;
 				}
+				sum = 0;
+				for (var i=0;i<spotsS17.length;i++) {
+					sum += spotsS17[i];
+				}
+				var driftPeek = document.getElementById("drift-peek");
+				console.log(sum/spotsS17.length);
+				driftPeek.innerHTML = String(Math.round((sum/spotsS17.length)*100)) + "% FULL";
 			});
 		</script>
 	</head>
