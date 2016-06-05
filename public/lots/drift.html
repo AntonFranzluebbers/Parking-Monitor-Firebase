@@ -1,40 +1,72 @@
 <!DOCTYPE HTML5>
 <html lang="en-us">
 
-  <head>
-	<meta charset="UTF-8">
-	<title>Parking Monitor | Driftmier Engineering Center (S17)</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300"
+<head>
+    <meta charset="UTF-8">
+    <title>Parking Monitor | Driftmier Engineering Center (S17)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300"
           rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="../stylesheets/styles.css" media="screen">
-	<link rel="icon" href="../images/ic_directions_car_black_48dp_1x.png">
-  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
-      authDomain: "parking-monitor.firebaseapp.com",
-      databaseURL: "https://parking-monitor.firebaseio.com",
-      storageBucket: "parking-monitor.appspot.com",
-    };
-    firebase.initializeApp(config);
-  </script>
-	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
-	<script>
-		var spots = document.getElementsByClassName("spot");
+    <link rel="stylesheet" type="text/css" href="../stylesheets/styles.css" media="screen">
+    <link rel="icon" href="../images/ic_directions_car_black_48dp_1x.png">
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
+            authDomain: "parking-monitor.firebaseapp.com",
+            databaseURL: "https://parking-monitor.firebaseio.com",
+            storageBucket: "parking-monitor.appspot.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <script>
+        // UPDATES THE SPOT COLORS IN REALTIME
+        var spots = document.getElementsByClassName("spot");
 
-		firebase.database().ref('lots/S17').on('child_added', function(snapshot) {
-			var spot = snapshot.val().spot;
-			if (snapshot.val().distance < 200) {
-				spots[spot-1].className = "spot-full spot";
-			} else {
-				spots[spot-1].className = "spot-empty spot";
-			}
-		});
+        firebase.database().ref('lots/S17').on('child_added', function (snapshot) {
+            var spot = snapshot.val().spot;
+            if (snapshot.val().distance < 200) {
+                spots[spot - 1].className = "spot-full spot";
+            } else {
+                spots[spot - 1].className = "spot-empty spot";
+            }
+        });
 
-	</script>
-  </head>
+    </script>
+    <script>
+        // UPDATES THE WEEKDAY CHART
+        // the bar elements
+        var bars = document.getElementsByClassName("week-chart-bar");
+        // the totals for each day of the week
+        var dayTotals = [0, 0, 0, 0, 0, 0, 0];
+        // firebase junk
+        firebase.database().ref('lots/S17').once('value').then(function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var currentDataDate = new Date();
+                // set the time and convert to Eastern
+                var dateRaw = childSnapshot.val().date;
+                currentDataDate.setTime(dateRaw + 7 * 60 * 60 * 1000);
+                // add one to the total for the day of the week that it was recorded on
+                dayTotals[currentDataDate.getDay()] += 1;
+
+            });
+            // find the height from the largest value
+            var maxCount = Math.max.apply(Math, dayTotals);
+            for (var i = 0; i < 7; i++) {
+                dayTotals[i] /= maxCount;
+            }
+            // update the bars
+            var heightMultiplier = 8;
+            for (var i = 0; i < 7; i++) {
+                var heightText = dayTotals[i] * heightMultiplier + "em";
+                bars[i].style.height = heightText;
+            }
+        });
+
+    </script>
+</head>
 
   <body>
     <section class="page-header">
@@ -243,17 +275,17 @@
 
       <h3>History</h3>
       <p>
-        <div class="week-chart">
-            <div class="week-chart-bar-container">
-                <div class="week-chart-bar"></div>
-                <div class="week-chart-bar"></div>
-                <div class="week-chart-bar"></div>
-                <div class="week-chart-bar"></div>
-                <div class="week-chart-bar"></div>
-                <div class="week-chart-bar"></div>
-                <div class="week-chart-bar"></div>
+        <div class="week-chart chart">
+            <div class="week-chart-bar-container bar-container">
+                <div class="week-chart-bar chart-bar"></div>
+                <div class="week-chart-bar chart-bar"></div>
+                <div class="week-chart-bar chart-bar"></div>
+                <div class="week-chart-bar chart-bar"></div>
+                <div class="week-chart-bar chart-bar"></div>
+                <div class="week-chart-bar chart-bar"></div>
+                <div class="week-chart-bar chart-bar"></div>
             </div>
-            <div class="week-chart-label-container">
+            <div class="week-chart-label-container label-container">
                 <div class="week-chart-label">Sunday</div>
                 <div class="week-chart-label">Monday</div>
                 <div class="week-chart-label">Tuesday</div>
@@ -262,39 +294,31 @@
                 <div class="week-chart-label">Friday</div>
                 <div class="week-chart-label">Saturday</div>
             </div>
-            <script>
-                // the bar elements
-                var bars = document.getElementsByClassName("week-chart-bar");
-                // the totals for each day of the week
-                var dayTotals = [0,0,0,0,0,0,0];
-                // firebase junk
-                firebase.database().ref('lots/S17').once('value').then(function(snapshot) {
-                    snapshot.forEach(function(childSnapshot) {
-                        var currentDataDate = new Date();
-                        // set the time and convert to Eastern
-                        var dateRaw = childSnapshot.val().date;
-                        currentDataDate.setTime(dateRaw + 7*60*60*1000);
-                        // add one to the total for the day of the week that it was recorded on
-                        dayTotals[currentDataDate.getDay()] += 1;
+        </div>
 
-                    });
-                    // find the height from the largest value
-                    var maxCount = Math.max.apply(Math, dayTotals);
-                    for (var i=0; i<7;i++) {
-                        dayTotals[i] /= maxCount;
-                    }
-                    // update the bars
-                    var heightMultiplier = 8;
-                    for (var i=0; i<7;i++) {
-                        var heightText = dayTotals[i]*heightMultiplier + "em";
-                        bars[i].style.height = heightText;
-                        console.log(heightText);
-                    }
-                });
-
-            </script>
+        <div class="time-chart chart">
+            <div class="time-chart-bar-container bar-container">
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+            </div>
+            <div class="time-chart-label-container label-container">
+                <div class="time-chart-label">Sunday</div>
+                <div class="time-chart-label">Monday</div>
+                <div class="time-chart-label">Tuesday</div>
+                <div class="time-chart-label">Wednesday</div>
+                <div class="time-chart-label">Thursday</div>
+                <div class="time-chart-label">Friday</div>
+                <div class="time-chart-label">Saturday</div>
+            </div>
         </div>
       </p>
+
+
 
 
         <br/>
