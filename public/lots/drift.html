@@ -266,15 +266,32 @@
                 // the bar elements
                 var bars = document.getElementsByClassName("week-chart-bar");
                 // the totals for each day of the week
-                var dayTotals = new Array(7);
+                var dayTotals = [0,0,0,0,0,0,0];
                 // firebase junk
-                firebase.database().ref('lots/S17').once('value', function(snapshot) {
+                firebase.database().ref('lots/S17').once('value').then(function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
+                        var currentDataDate = new Date();
+                        // set the time and convert to Eastern
+                        var dateRaw = childSnapshot.val().date;
+                        currentDataDate.setTime(dateRaw + 7*60*60*1000);
                         // add one to the total for the day of the week that it was recorded on
-                        dayTotals[0] = childSnapshot.val().distance;
+                        dayTotals[currentDataDate.getDay()] += 1;
+
                     });
+                    // find the height from the largest value
+                    var maxCount = Math.max.apply(Math, dayTotals);
+                    for (var i=0; i<7;i++) {
+                        dayTotals[i] /= maxCount;
+                    }
+                    // update the bars
+                    var heightMultiplier = 8;
+                    for (var i=0; i<7;i++) {
+                        var heightText = dayTotals[i]*heightMultiplier + "em";
+                        bars[i].style.height = heightText;
+                        console.log(heightText);
+                    }
                 });
-                bars[0].innerHTML = dayTotals[0];
+
             </script>
         </div>
       </p>

@@ -375,6 +375,7 @@ a:hover {
   width: 1em;
   height: .1em;
   background-color: var(--mat-teal);
+  transition: height 1s;
 }
 
 .site-footer {
