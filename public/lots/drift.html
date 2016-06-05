@@ -5,7 +5,8 @@
 	<meta charset="UTF-8">
 	<title>Parking Monitor | Driftmier Engineering Center (S17)</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300"
+          rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="../stylesheets/styles.css" media="screen">
 	<link rel="icon" href="../images/ic_directions_car_black_48dp_1x.png">
   <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
@@ -44,7 +45,9 @@
 
     <section class="main-content">
 
-      <a href="../index.html">Home</a> &gt; <a href="../map.html">Map</a> &gt; <a href="drift.html	">Driftmier Engineering Center (S17)</a>
+      <a href="../index.html">Home</a> &gt;
+        <a href="../map.html">Map</a> &gt;
+        <a href="drift.html	">Driftmier Engineering Center (S17)</a>
       <h3>Fill level of Driftmier Engineering Center (S17)</h3>
 
       <!-- <div class="detailed-info-box">
@@ -237,20 +240,48 @@
       </div>
 
       <hr>
-      <p>
-				Parking space
-      </p>
+
       <h3>History</h3>
       <p>
-        <table border="0" cellspacing="0" cellpadding="4">
-          <tr>
-            <td class="table_titles">ID</td>
-            <td class="table_titles">Date and Time</td>
-            <td class="table_titles">Sensor Serial</td>
-            <td class="table_titles">Distance in cm</td>
-          </tr>
-				</table>
+        <div class="week-chart">
+            <div class="week-chart-bar-container">
+                <div class="week-chart-bar"></div>
+                <div class="week-chart-bar"></div>
+                <div class="week-chart-bar"></div>
+                <div class="week-chart-bar"></div>
+                <div class="week-chart-bar"></div>
+                <div class="week-chart-bar"></div>
+                <div class="week-chart-bar"></div>
+            </div>
+            <div class="week-chart-label-container">
+                <div class="week-chart-label">Sunday</div>
+                <div class="week-chart-label">Monday</div>
+                <div class="week-chart-label">Tuesday</div>
+                <div class="week-chart-label">Wednesday</div>
+                <div class="week-chart-label">Thursday</div>
+                <div class="week-chart-label">Friday</div>
+                <div class="week-chart-label">Saturday</div>
+            </div>
+            <script>
+                // the bar elements
+                var bars = document.getElementsByClassName("week-chart-bar");
+                // the totals for each day of the week
+                var dayTotals = new Array(7);
+                // firebase junk
+                firebase.database().ref('lots/S17').once('value', function(snapshot) {
+                    snapshot.forEach(function(childSnapshot) {
+                        // add one to the total for the day of the week that it was recorded on
+                        dayTotals[0] = childSnapshot.val().distance;
+                    });
+                });
+                bars[0].innerHTML = dayTotals[0];
+            </script>
+        </div>
       </p>
+
+
+        <br/>
+        <br/>
 
       <footer class="site-footer">
         <hr> &copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016
