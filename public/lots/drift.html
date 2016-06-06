@@ -36,11 +36,14 @@
 
     </script>
     <script>
-        // UPDATES THE WEEKDAY CHART
+        // UPDATES THE WEEKDAY CHART AND HOURLY CHART
         // the bar elements
-        var bars = document.getElementsByClassName("week-chart-bar");
+        var dayBars = document.getElementsByClassName("week-chart-bar");
+        var hourBars = document.getElementsByClassName("time-chart-bar");
         // the totals for each day of the week
         var dayTotals = [0, 0, 0, 0, 0, 0, 0];
+        // the totals for the hour of the day
+        var hourTotals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         // firebase junk
         firebase.database().ref('lots/S17').once('value').then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
@@ -50,19 +53,34 @@
                 currentDataDate.setTime(dateRaw + 7 * 60 * 60 * 1000);
                 // add one to the total for the day of the week that it was recorded on
                 dayTotals[currentDataDate.getDay()] += 1;
+                // add one to the hourly total
+                hourTotals[currentDataDate.getHours()] += 1;
 
             });
             // find the height from the largest value
             var maxCount = Math.max.apply(Math, dayTotals);
-            for (var i = 0; i < 7; i++) {
-                dayTotals[i] /= maxCount;
-            }
-            // update the bars
+
             var heightMultiplier = 8;
+
             for (var i = 0; i < 7; i++) {
+                //dayBars[i].innerHTML = dayTotals[i];
+                dayTotals[i] /= maxCount;
+                // update the bars
                 var heightText = dayTotals[i] * heightMultiplier + "em";
-                bars[i].style.height = heightText;
+                dayBars[i].style.height = heightText;
             }
+
+
+
+            // find the height from max value for hourly
+            maxCount = Math.max.apply(Math, hourTotals);
+            for (var i=0; i<24; i++) {
+                //hourBars[i].innerHTML = hourTotals[i];
+                hourTotals[i] /= maxCount;
+                var heightText = hourTotals[i] * heightMultiplier + "em";
+                hourBars[i].style.height = heightText;
+            }
+
         });
 
     </script>
@@ -82,10 +100,6 @@
         <a href="drift.html	">Driftmier Engineering Center (S17)</a>
       <h3>Fill level of Driftmier Engineering Center (S17)</h3>
 
-      <!-- <div class="detailed-info-box">
-        <p>Time occupied in last 30 days: x%</p>
-        <p><img src="graph-mockup.png" width="200px" height="100px"/></p>
-      </div> -->
 
       <ul class="spot-list-key">
         <li><div class="spot-empty"></div>Empty</li>
@@ -296,8 +310,25 @@
             </div>
         </div>
 
-        <div class="time-chart chart">
-            <div class="time-chart-bar-container bar-container">
+        <div id="time-chart" class="chart">
+            <div id="time-chart-bar-container" class="bar-container">
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
+                <div class="time-chart-bar chart-bar"></div>
                 <div class="time-chart-bar chart-bar"></div>
                 <div class="time-chart-bar chart-bar"></div>
                 <div class="time-chart-bar chart-bar"></div>
@@ -306,14 +337,31 @@
                 <div class="time-chart-bar chart-bar"></div>
                 <div class="time-chart-bar chart-bar"></div>
             </div>
-            <div class="time-chart-label-container label-container">
-                <div class="time-chart-label">Sunday</div>
-                <div class="time-chart-label">Monday</div>
-                <div class="time-chart-label">Tuesday</div>
-                <div class="time-chart-label">Wednesday</div>
-                <div class="time-chart-label">Thursday</div>
-                <div class="time-chart-label">Friday</div>
-                <div class="time-chart-label">Saturday</div>
+            <div id="time-chart-label-container" class="label-container">
+                <div class="time-chart-label">12 AM</div>
+                <div class="time-chart-label">1 AM</div>
+                <div class="time-chart-label">2 AM</div>
+                <div class="time-chart-label">3 AM</div>
+                <div class="time-chart-label">4 AM</div>
+                <div class="time-chart-label">5 AM</div>
+                <div class="time-chart-label">6 AM</div>
+                <div class="time-chart-label">7 AM</div>
+                <div class="time-chart-label">8 AM</div>
+                <div class="time-chart-label">9 AM</div>
+                <div class="time-chart-label">10 AM</div>
+                <div class="time-chart-label">11 AM</div>
+                <div class="time-chart-label">12 PM</div>
+                <div class="time-chart-label">1 PM</div>
+                <div class="time-chart-label">2 PM</div>
+                <div class="time-chart-label">3 PM</div>
+                <div class="time-chart-label">4 PM</div>
+                <div class="time-chart-label">5 PM</div>
+                <div class="time-chart-label">6 PM</div>
+                <div class="time-chart-label">7 PM</div>
+                <div class="time-chart-label">8 PM</div>
+                <div class="time-chart-label">9 PM</div>
+                <div class="time-chart-label">10 PM</div>
+                <div class="time-chart-label">11 PM</div>
             </div>
         </div>
       </p>
