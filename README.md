@@ -1,5 +1,8 @@
 # Parking-Monitor-Firebase
 
+https://parking-monitor.firebaseapp.com/ or
+http://parkingmonitor.ddns.net (redirects to above)
+
 This is an extension of the project completed by Ryan Charnoky, Anton Franzluebbers, and Nithin Jino during Project 2 for CSEE 2210. The repository for the project can be found at https://github.com/AntonFranzluebbers/Parking-Monitor. The website is hosted on Firebase, which allows the database to be displayed and updated in realtime.
 
 ## Data Generation
