@@ -50,11 +50,12 @@
                 var currentDataDate = new Date();
                 // set the time and convert to Eastern
                 var dateRaw = childSnapshot.val().date;
-                currentDataDate.setTime(dateRaw + 7 * 60 * 60 * 1000);
+                currentDataDate.setTime(dateRaw*1000);
                 // add one to the total for the day of the week that it was recorded on
                 dayTotals[currentDataDate.getDay()] += 1;
                 // add one to the hourly total
                 hourTotals[currentDataDate.getHours()] += 1;
+                hourBars[1].innerHTML = currentDataDate.getTime();
 
             });
             // find the height from the largest value
