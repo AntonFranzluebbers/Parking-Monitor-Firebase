@@ -1,88 +1,93 @@
-	<!DOCTYPE HTML5>
-	<html lang="en-us">
+<!DOCTYPE HTML5>
+<html lang="en-us">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Parking Monitor</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="stylesheets/styles.css" media="screen">
-		<link rel="icon" href="images/ic_directions_car_black_48dp_1x.png">
-		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-		<script>
-			// Initialize Firebase
-			var config = {
-				apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
-				authDomain: "parking-monitor.firebaseapp.com",
-				databaseURL: "https://parking-monitor.firebaseio.com",
-				storageBucket: "parking-monitor.appspot.com",
-			};
-			firebase.initializeApp(config);
-		</script>
-		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
-		<script>
-			var spotsS17 = new Array(126);
-			for (var i=0;i<spotsS17.length;i++) {
-				spotsS17[i]=0;
+<head>
+	<meta charset="UTF-8">
+	<title>Parking Monitor</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300" rel="stylesheet"
+	      type="text/css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/styles.css" media="screen">
+	<link rel="icon" href="images/ic_directions_car_black_48dp_1x.png">
+	<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
+			authDomain: "parking-monitor.firebaseapp.com",
+			databaseURL: "https://parking-monitor.firebaseio.com",
+			storageBucket: "parking-monitor.appspot.com",
+		};
+		firebase.initializeApp(config);
+	</script>
+	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+	<script>
+		var spotsS17 = new Array(126);
+		for (var i = 0; i < spotsS17.length; i++) {
+			spotsS17[i] = 0;
+		}
+
+		firebase.database().ref('lots/S17').on('child_added', function (snapshot) {
+			if (snapshot.val().distance < 200) {
+				spotsS17[snapshot.val().spot] = 0;
+			} else {
+				spotsS17[snapshot.val().spot] = 1;
 			}
+			sum = 0;
+			for (var i = 0; i < spotsS17.length; i++) {
+				sum += spotsS17[i];
+			}
+			var driftPeek = document.getElementById("drift-peek");
+			console.log(sum / spotsS17.length);
+			driftPeek.innerHTML = String(Math.round((sum / spotsS17.length) * 100)) + "% FULL";
+		});
+	</script>
+</head>
 
-			firebase.database().ref('lots/S17').on('child_added', function(snapshot) {
-				if (snapshot.val().distance < 200) {
-					spotsS17[snapshot.val().spot] = 0;
-				} else {
-					spotsS17[snapshot.val().spot] = 1;
-				}
-				sum = 0;
-				for (var i=0;i<spotsS17.length;i++) {
-					sum += spotsS17[i];
-				}
-				var driftPeek = document.getElementById("drift-peek");
-				console.log(sum/spotsS17.length);
-				driftPeek.innerHTML = String(Math.round((sum/spotsS17.length)*100)) + "% FULL";
-			});
-		</script>
-	</head>
-
-	<body>
-		<section class="page-header">
-			<h1 class="project-name">Parking Monitor <img src="images/ic_directions_car_white_48px.svg"></h1>
-			<h2 class="project-tagline">Map of available parking spots</h2>
-		</section>
+<body>
+<section class="page-header">
+	<h1 class="project-name">Parking Monitor <img src="images/ic_directions_car_white_48px.svg"></h1>
+	<h2 class="project-tagline">Map of available parking spots</h2>
+</section>
 
 
-		<section class="main-content">
+<section class="main-content">
 
-			<a href="index.html">Home</a> &gt; <a href="map.html">Map</a>
-			<h3>Choose a lot</h3>
-			<p>
-				This could be an image of campus with clickable overlays on the parking lots or a list like below.
-			</p>
-			<p>
-				Avalable lots:
-				<div class="available-lots">
-					<a href="lots/drift.html">
-						<div class="lot-thumb">Driftmier Engineering Center (S17)</div>
-						<div class="peek" id="drift-peek"></div>
-					</a>
-					<a href="#">
-						<div class="lot-thumb">Carlton Street Deck (S15)</div>
-						<div class="peek">100% FULL</div>
-					</a>
-					<a href="#">
-						<div class="lot-thumb">South Deck (S11)</div>
-						<div class="peek">100% FULL</div>
-					</a>
-				</div>
-			</p>
+	<a href="index.html">Home</a> &gt; <a href="map.html">Map</a>
+	<h3>Choose a lot</h3>
+	<p>
+		This could be an image of campus with clickable overlays on the parking lots or a list like below.
+	</p>
+	<p>
+		Avalable lots:
+	<div class="available-lots">
+		<a href="lots/S12.html">
+			<div class="lot-thumb">S12</div>
+			<div class="peek" id="S12-peek"></div>
+		</a>
+		<a href="lots/drift.html">
+			<div class="lot-thumb">Driftmier Engineering Center (S17)</div>
+			<div class="peek" id="drift-peek"></div>
+		</a>
+		<a href="#">
+			<div class="lot-thumb">Carlton Street Deck (S15)</div>
+			<div class="peek">100% FULL</div>
+		</a>
+		<a href="#">
+			<div class="lot-thumb">South Deck (S11)</div>
+			<div class="peek">100% FULL</div>
+		</a>
+	</div>
+	</p>
 
-			<footer class="site-footer">
-				<hr>
-				<span class="site-footer-credits">&copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016</span>
-			</footer>
+	<footer class="site-footer">
+		<hr>
+		<span class="site-footer-credits">&copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016</span>
+	</footer>
 
-		</section>
+</section>
 
 
-	</body>
+</body>
 
-	</html>
+</html>

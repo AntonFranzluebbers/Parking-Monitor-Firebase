@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Parking Monitor | S12</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,100,700|Roboto+Slab:300"
+	      rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="../stylesheets/styles.css" media="screen">
+	<link rel="icon" href="../images/ic_directions_car_black_48dp_1x.png">
+	<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyBTgC9QcoHbGTYuCRbRNcHSf8cSQq3v-4s",
+			authDomain: "parking-monitor.firebaseapp.com",
+			databaseURL: "https://parking-monitor.firebaseio.com",
+			storageBucket: "parking-monitor.appspot.com",
+		};
+		firebase.initializeApp(config);
+	</script>
+	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+	<script>
+		// UPDATES THE SPOT COLORS IN REALTIME
+		var spots = document.getElementsByClassName("spot");
+
+		firebase.database().ref('lots/S12').on('child_added', function (snapshot) {
+			var spot = snapshot.val().spot;
+			if (snapshot.val().distance < 200) {
+				spots[spot - 1].className = "spot-full spot";
+			} else {
+				spots[spot - 1].className = "spot-empty spot";
+			}
+		});
+
+	</script>
+	<script>
+		// UPDATES THE WEEKDAY CHART AND HOURLY CHART
+		// the bar elements
+		var dayBars = document.getElementsByClassName("week-chart-bar");
+		var hourBars = document.getElementsByClassName("time-chart-bar");
+		// the totals for each day of the week
+		var dayTotals = [0, 0, 0, 0, 0, 0, 0];
+		// the totals for the hour of the day
+		var hourTotals = new Array(24);
+		for (var i=0;i<hourTotals.length;i++) {
+			hourTotals[i]=0;
+		}
+		// firebase junk
+		firebase.database().ref('lots/S12').once('value').then(function (snapshot) {
+			snapshot.forEach(function (childSnapshot) {
+				var currentDataDate = new Date();
+				// set the time and convert to Eastern
+				var dateRaw = childSnapshot.val().date;
+				currentDataDate.setTime(dateRaw*1000);
+				// add one to the total for the day of the week that it was recorded on
+				dayTotals[currentDataDate.getDay()] += 1;
+				// add one to the hourly total
+				hourTotals[currentDataDate.getHours()] += 1;
+
+			});
+			// find the height from the largest value
+			var maxCount = Math.max.apply(Math, dayTotals);
+
+			var heightMultiplier = 8;
+
+			for (var i = 0; i < 7; i++) {
+				//dayBars[i].innerHTML = dayTotals[i];
+				dayTotals[i] /= maxCount;
+				// update the bars
+				var heightText = dayTotals[i] * heightMultiplier + "em";
+				dayBars[i].style.height = heightText;
+			}
+
+
+
+			// find the height from max value for hourly
+			maxCount = Math.max.apply(Math, hourTotals);
+			for (var i=0; i<24; i++) {
+				//hourBars[i].innerHTML = hourTotals[i];
+				hourTotals[i] /= maxCount;
+				var heightText = hourTotals[i] * heightMultiplier + "em";
+				hourBars[i].style.height = heightText;
+			}
+
+		});
+
+	</script>
+</head>
+
+<body>
+<section class="page-header">
+	<h1 class="project-name">Parking Monitor <img src="../images/ic_directions_car_white_48px.svg"></h1>
+	<h2 class="project-tagline">Map of available parking spots in Driftmier Engineering Center (S17)</h2>
+</section>
+
+
+<section class="main-content">
+
+	<p style="margin:0">
+		<a href="../index.html">Home</a> &gt;
+		<a href="../map.html">Map</a> &gt;
+		<a href="S12.html">S12</a>
+	</p>
+	<h3>Fill level of S12</h3>
+
+
+	<ul class="spot-list-key">
+		<li><div class="spot-empty"></div>Empty</li>
+		<li><div  class="spot-full"></div>Full</li>
+		<li><div  class=""></div>No data</li>
+		<li><div  class="yellow-striped"></div>No parking</li>
+		<li><div  class="blue-striped"></div>Handicap</li>
+	</ul>
+
+
+	<div class="spot-list-container S12">
+		<img id="background-image-S12" src="../images/S12-background.png" />
+		<br>
+		<ul class="spot-list spot-list-horizontal">
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+			<a href="#"><li class="spot diag-right" ></li></a>
+		</ul>
+		<div class="spot-spacer spacer-1"></div>
+		<ul class="spot-list spot-list-horizontal">
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+			<a href="#"><li class="spot diag-left" ></li></a>
+		</ul>
+		<!--<br/>-->
+		<!--<br/>-->
+		<div class="spot-spacer spacer-1"></div>
+		<ul class="spot-list spot-list-horizontal">
+			<a href="#"><li class="spacer-spot"></li></a>
+			<a href="#"><li class="spacer-spot"></li></a>
+			<a href="#"><li class="spacer-spot"></li></a>
+			<a href="#"><li class="spacer-spot"></li></a>
+			<a href="#"><li class="spot diag-left"></li></a>
+			<a href="#"><li class="spot diag-left"></li></a>
+			<a href="#"><li class="spacer-spot"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+			<a href="#"><li class="spot diag-right"></li></a>
+		</ul>
+		<div class="spot-spacer spacer-2"></div>
+		<div class="spot-list-vertical">
+			<ul class="spot-list">
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+			</ul>
+			<div class="spot-spacer spacer-4"></div>
+			<ul class="spot-list">
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+			</ul>
+			<div class="spot-spacer spacer-3"></div>
+			<ul class="spot-list">
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+				<a href="#"><li class="spot diag-right"></li></a>
+			</ul>
+			<div class="spot-spacer spacer-4"></div>
+			<ul class="spot-list">
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+			</ul>
+			<div class="spot-spacer spacer-3"></div>
+			<ul class="spot-list">
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+				<a href="#"><li class="spot diag-left"></li></a>
+			</ul>
+			<div class="spot-spacer spacer-4"></div>
+			<ul class="spot-list" id="S12-row9">
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot yellow-striped"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+				<a href="#"><li class="spot"></li></a>
+			</ul>
+
+		</div>
+		<div class="spot-spacer spacer-5"></div>
+	</div>
+
+	<hr>
+
+	<h3>History of Activity (higher bars indicate more entering or leaving)</h3>
+	<div class="week-chart chart">
+		<div class="week-chart-bar-container bar-container">
+			<div class="week-chart-bar chart-bar"></div>
+			<div class="week-chart-bar chart-bar"></div>
+			<div class="week-chart-bar chart-bar"></div>
+			<div class="week-chart-bar chart-bar"></div>
+			<div class="week-chart-bar chart-bar"></div>
+			<div class="week-chart-bar chart-bar"></div>
+			<div class="week-chart-bar chart-bar"></div>
+		</div>
+		<div class="week-chart-label-container label-container">
+			<div class="week-chart-label">Sunday</div>
+			<div class="week-chart-label">Monday</div>
+			<div class="week-chart-label">Tuesday</div>
+			<div class="week-chart-label">Wednesday</div>
+			<div class="week-chart-label">Thursday</div>
+			<div class="week-chart-label">Friday</div>
+			<div class="week-chart-label">Saturday</div>
+		</div>
+	</div>
+
+	<div id="time-chart" class="chart">
+		<div id="time-chart-bar-container" class="bar-container">
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+			<div class="time-chart-bar chart-bar"></div>
+		</div>
+		<div id="time-chart-label-container" class="label-container">
+			<div class="time-chart-label">12 AM</div>
+			<div class="time-chart-label">1 AM</div>
+			<div class="time-chart-label">2 AM</div>
+			<div class="time-chart-label">3 AM</div>
+			<div class="time-chart-label">4 AM</div>
+			<div class="time-chart-label">5 AM</div>
+			<div class="time-chart-label">6 AM</div>
+			<div class="time-chart-label">7 AM</div>
+			<div class="time-chart-label">8 AM</div>
+			<div class="time-chart-label">9 AM</div>
+			<div class="time-chart-label">10 AM</div>
+			<div class="time-chart-label">11 AM</div>
+			<div class="time-chart-label">12 PM</div>
+			<div class="time-chart-label">1 PM</div>
+			<div class="time-chart-label">2 PM</div>
+			<div class="time-chart-label">3 PM</div>
+			<div class="time-chart-label">4 PM</div>
+			<div class="time-chart-label">5 PM</div>
+			<div class="time-chart-label">6 PM</div>
+			<div class="time-chart-label">7 PM</div>
+			<div class="time-chart-label">8 PM</div>
+			<div class="time-chart-label">9 PM</div>
+			<div class="time-chart-label">10 PM</div>
+			<div class="time-chart-label">11 PM</div>
+		</div>
+	</div>
+
+	<br/>
+	<br/>
+
+	<footer class="site-footer">
+		<hr> &copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016
+	</footer>
+
+</section>
+
+
+</body>
+
+</html>
