@@ -43,7 +43,10 @@
         // the totals for each day of the week
         var dayTotals = [0, 0, 0, 0, 0, 0, 0];
         // the totals for the hour of the day
-        var hourTotals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        var hourTotals = new Array(24);
+        for (var i=0;i<hourTotals.length;i++) {
+            hourTotals[i]=0;
+        }
         // firebase junk
         firebase.database().ref('lots/S17').once('value').then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
@@ -287,8 +290,7 @@
 
       <hr>
 
-      <h3>History</h3>
-      <p>
+      <h3>History of Activity (higher bars indicate more entering or leaving)</h3>
         <div class="week-chart chart">
             <div class="week-chart-bar-container bar-container">
                 <div class="week-chart-bar chart-bar"></div>
@@ -364,21 +366,17 @@
                 <div class="time-chart-label">11 PM</div>
             </div>
         </div>
-      </p>
-
-
-
 
         <br/>
         <br/>
 
-      <footer class="site-footer">
-        <hr> &copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016
-      </footer>
+        <footer class="site-footer">
+            <hr> &copy; Ryan Charnoky, Anton Franzluebbers, Nithin Jino 2016
+        </footer>
 
     </section>
 
 
   </body>
 
-  </html>
+</html>

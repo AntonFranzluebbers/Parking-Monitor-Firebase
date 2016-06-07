@@ -21,8 +21,8 @@ The red and green colors on the individual spots on the diagram of the parking l
 
 ### Day of Week graph
 
-The bars on the day of week graph at the bottom of the drift page represent the relative fill level on different days of the week. Currently, the system tallies the total updates (full or empty) recorded in the database for each day of the week. This is not correct behaviour.
+The bars on the day of week graph at the bottom of the drift page represent the relative activity on different days of the week. Currently, the system tallies the total updates (full or empty) recorded in the database for each day of the week.
 
 ### Hourly graph
 
-The bars on the hourly graph at the bottom of the drift page should represent the relative fill level during different hours of the day. Currently, the system tallies the total updates (full or empty) recorded in the database for each hour. This is not correct behaviour.
+The bars on the hourly graph at the bottom of the drift page represent the relative activity during different hours of the day. Currently, the system tallies the total updates (full or empty) recorded in the database for each hour.
